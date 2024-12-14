@@ -49,11 +49,25 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT,"/usuarios/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/logout").permitAll()
 
+                        .requestMatchers(HttpMethod.POST,"/categorias").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/categorias/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT,"/categorias/**").permitAll()
+
+
+
+
 
                         //-----------------------------ADMIN---------------------------------------
                         .requestMatchers(HttpMethod.GET, "/usuarios").hasRole("admin")
                         .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("admin")
                         .requestMatchers(HttpMethod.PUT,"/usuarios/**").hasRole("admin")
+
+                        .requestMatchers(HttpMethod.POST,"/categorias").hasRole("admin")
+                        .requestMatchers(HttpMethod.GET,"/categorias/**").hasRole("admin")
+                        .requestMatchers(HttpMethod.PUT,"/categorias/**").hasRole("admin")
+                        .requestMatchers(HttpMethod.GET,"/categorias/").hasRole("admin")
+                        .requestMatchers(HttpMethod.PUT,"/categorias/").hasRole("admin")
+
 
 
                         // Acesso para usuários autenticados
