@@ -5,6 +5,7 @@ import com.example.projeto_api.domain.user.User;
 import com.example.projeto_api.dto.*;
 import com.example.projeto_api.infra.security.TokenService;
 import com.example.projeto_api.repositories.UserRepository;
+import com.mysql.cj.log.Log;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,8 +60,12 @@ public class AuthControlller {
         return ResponseEntity.badRequest().build();
     }
 
-    @PostMapping ("/logout")
-    public ResponseEntity<?> logout() {
-        return ResponseEntity.status(HttpStatus.OK).build();
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestHeader(name = "Authorization") String authorization) {
+        if (authorization != null && authorization.startsWith("Bearer ")) {
+            String token = authorization.substring(7); // Extract token without "Bearer "
+            System.out.println("token" + token);// Invalidate token in your TokenService
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 204 No Content
     }
 }
