@@ -48,6 +48,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/usuarios/**").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/usuarios/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/logout").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/logout/**").permitAll()
+
 
                         .requestMatchers(HttpMethod.POST,"/categorias").permitAll()
                         .requestMatchers(HttpMethod.GET,"/categorias/**").permitAll()
