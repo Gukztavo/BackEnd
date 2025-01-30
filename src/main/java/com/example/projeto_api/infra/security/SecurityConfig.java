@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -47,15 +48,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/usuarios/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/usuarios/**").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/usuarios/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/logout").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/logout/**").permitAll()
-
 
                         .requestMatchers(HttpMethod.POST,"/categorias").permitAll()
                         .requestMatchers(HttpMethod.GET,"/categorias/**").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/categorias/**").permitAll()
-
-
+                        .requestMatchers(HttpMethod.POST,"/avisos").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/avisos/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT,"/avisos/**").permitAll()
 
 
 
@@ -69,13 +68,22 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT,"/categorias/**").hasRole("admin")
                         .requestMatchers(HttpMethod.GET,"/categorias/").hasRole("admin")
                         .requestMatchers(HttpMethod.PUT,"/categorias/").hasRole("admin")
-
+                        .requestMatchers(HttpMethod.PUT,"/avisos/**").hasRole("admin")
+                        .requestMatchers(HttpMethod.GET,"/avisos/").hasRole("admin")
+                        .requestMatchers(HttpMethod.PUT,"/avisos/").hasRole("admin")
 
 
                         // Acesso para usuários autenticados
                         .requestMatchers(HttpMethod.GET, "/usuarios/{email}").authenticated()
                         .anyRequest().authenticated()
                 )
+                .cors().and()
+                .logout()
+                    .logoutUrl("/logout")
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    System.out.println("Chegou");
+                })
+                .and()
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
